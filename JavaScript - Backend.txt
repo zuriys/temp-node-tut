@@ -1,0 +1,327 @@
+JavaScript - Backend
+=====================
+
+Baik dipembelajran kali ini kita akan mempelajari Node.js dan Express.js
+
+langakah pertama yang kita lakukan adalah mendownload node.js nya terlebih dahulu, yang direkomendasikan  adalah yang LTS . kita akan melakukan instalasi. 
+
+setelah terunduh kita dapat melihat versi nya pada terminal . 
+jika command line : node -v
+
+setelah itu jika kita mau masuk dalam area node , maka ketik syntax : node
+maka kita akan masuk keareanya dengan ditandai tanda segitiga kebelakang.
+
+untuk pertama kali kita melihat areanya ini semacam mirip python juga. 
+
+baca disini untuk detail, jika lupa-lupa :
+https://www.geeksforgeeks.org/how-to-open-node-js-command-prompt/
+
+
+dan untuk keluar dari rebel (area) pada terminal maka : ctrl + c
+
+
+nah bagaimana selanjutnya kita dapat menggunakan node dala project kita mari kita buat satu folder baru terus didalamnya kita kasi file js yang namannya app.
+
+
+nah disini terdapat const amount , yang mana menurutpenjelasan  di js itu ada 3 bentuk yaitu const (tidak bisa diubah = konstanta), var, dan let.
+
+
+kita buat program comparing sederhana dlu 
+
+
+
+Selanjutnya disini dijelasin global variabel :
+ 
+
+
+
+contoh code : 
+=============
+
+console.log(__dirname)
+setInterval(() => {
+	console.log('hello word')
+},1000)
+
+
+
+
+===========
+= Modules =
+===========
+
+didalam node , semua file itu adalah module, dan module itu kita hanya mengeshare yang hanya apa yang kita mau share (Only share minimum)
+
+variabel itu seperti key : value gitu . 
+
+
+const john  = 'john'
+const peter = 'peter'
+
+const sayHi = (names) => {
+    console.log(`Hello there ${name}`) 
+}
+
+sayHi('susan')
+sayHi(john)
+sayHi(peter)
+
+
+dari kode diatas kita akan mendapatkan output :
+
+Hello there susan
+Hello there john
+Hello there peter
+
+
+coba sekarang kita akan membuat file baru , dan akan melakukan penghubungan . 
+
+-file keempat (karna dah ada 3 file dibuat sebelumnya) yaitu names.js untuk menyimpan nama namanya
+-file kelima (karna dah ada 4 file sebelumnya) yaitu utils.js tentunya function yang ada di app.js akan dipindah ke utils.
+
+
+nah sekarang kita fokus pada names.js , yang mana disini kan terdapat 3 variabel ya , dan yang mau kita share itu hanya data nama dari john dan peter, maka dari itu untuk melakukan pengeshare an kita membutuhkan module.exports = {nilainya} , untuk mengeshare nya secara global diaplikasi kita . 
+
+nah sementara itu di app.js , kita akan mencoba untuk mengaksesd data nama yang ada di names.js dengan menggunakan require dan path dari mana data akan diambil. seperti dibawah : 
+
+const names = require('./4-names.js')
+
+nah yang paling penting dalam menulis path nya itu , kita jangan sampe tidak menyertakan ./
+setelah kita simpan itu data yang diakses dalam variabel names lanjut kita outputkan dengan 
+
+console.log(names)
+
+dan jangan lupa hidden / comment/ remove sisa code yang akan membuat error
+
+
+
+nah selanjutnya sama juga untuk utils.js kita bisa export dan akses di app.js , katakan lah kita akan mengexport functionnya. maka kita tulis dengan : 
+
+module.exports = sayHi
+
+lalu kita berlanjut ke file app.js nya yang mana tempat kita mengakses , kita bisa menuliskannya tentu dengan require lagi, kita akan simpan di variabel dengan nama sayHi juga ya . 
+
+const sayHi = require('./5-utils.js')
+
+nah nanti code dibaawah yang sebelumnya di komen bisa kita buka, dan console.log sebelumnya bisa kita hapus. 
+
+namun kan kita akan mendapatkan error karna kata john dan peter itu tidak ditemukan , dan kita semua tau mereka tersimpan didalam variabel names , saat kita mengaksessnya , maka kita dapat mengganti parameter utnuk fungsi sayHi nya dengan mengakses variabel names.nama variabel dari nilai nya dari tempat data itu datang. Seperti : 
+
+sayHi('susan')
+sayHi(names.john)
+sayHi(names.peter)
+
+jadi intinya disini , jika kita ingin mengexport sesuatu , maka tulislah :
+ module.export = nilai 
+
+atau cara alternativenya juga bisa seperti ini 
+// bentuk lain kalau mau export sesuatu gini bisa
+module.expoorts.item = {'items1','items2'}    
+
+//atau untuk bentuk yang seperti ini juga bisa
+const person = {
+    name : 'bob',
+}
+
+module.exports.Singleperson = person      
+
+
+*ingat, ketika kamu mengimport module , berarti kamu memanggil modul itu. 
+
+kita juga ada buat file 7-whatever yang mana itu kita ga melakukan export  gtu , kita hanya melakukan import di file app.js yang memanggil module 7-whatever , sehingga semua yang terdapat dalam file 7-what ever itu akan tereksekusi semua . nah jika kita menambahkan exporting di sana, berarti ada beberapa data yang ingin kita kirimkan , tidak semua (only share minimum).
+
+untuk lebih banyak detail lagi tentang modules silakan ke :
+https://nodejs.org/docs/latest/api/modules.html
+
+
+nah kita mindahin yang didalam app.js ini ke file baru dlu yaitu 3-module.
+
+
+
+
+==============
+= OS MODULES =
+==============
+
+untuk disini kita bukan memanggil jenis module seperti sebelumnya , yang mana disini kita langsung manggil dari os nya, seperti 
+
+const os = require('os')
+
+ //jika mau tau tentang info user saat ini 
+ const user = os.userInfo()
+ console.log(user)
+
+jadi kita akan tau info user atau siapa yang mengakses os ini . 
+
+
+ atau disini jika kita ingin melihat system uptimenya dalam satuan detik 
+ console.log(`the system uptime is ${os.uptime()} seconds`)
+
+ dan ini untuk info lainnya bisa aja langsung kita buatkan variabel yang langsung nampung banyak
+ const currentOS = {
+    name : os.type(),
+    release : os.release(),
+    totalMemo : os.totalmem(),
+    freeMemo : os.freemem(),
+ }
+
+ console.log(currentOS)
+
+*jangan lupa komanya dalam setiap nilai
+
+nah module berguna lainnya adalah path module , jadi pindahkan dulu code yg di app.js ke file baru 
+ 
+
+================
+= PATH MODULES =
+================
+
+ini untuk melihat pemisah path itu apa 
+
+ const path = require('path')
+ console.log(path.sep)
+
+maka nanti output yang keluar adalah "\"
+
+
+//untuk mengetahui  path dari suatu file
+const FilePath = path.join('/content','subfolder','text.txt')
+console.log(FilePath)
+
+//untuk mengetahui nama file yang terdapat di path itu
+const base = path.basename(FilePath)
+console.log(base)
+
+//absolute path nya 
+const absolute = path.resolve(__dirname,'content','subfolder','test.txt')
+console.log(absolute)
+
+
+*kita butuh const path yang paling awal untuk melakukan semua ini . 
+
+
+=============
+= Fs Module =
+=============
+
+ini adalah module untuk file system . ada yang syncr dan asyncr
+banyak macamnya, dan salah satunya readFileSync dan writeFileSync
+yang mana adalah fungsi utnuk membaca file, nanti diminta untuk memasukkan path file , nah dan satunya untuk menulis file , yaitu writeFileSync yaitu fungsi untuk menulis isi file , jika file tidak ditemukan maka file akan dibuatkan baru, dan selanjutnya jika kita melakukan hal seperti diabawah 
+
+
+ini yang sync : 
+
+
+writeFileSync(
+    './content/result-sync.txt',`Here is the result : ${first},${second}`
+)
+
+ini maka akan terus ditimpa dengan isi yang seperti ini setiap kita nge run app.js (atau file ditempat code itu berada)
+
+nah beda lagi kalauu kita menambahkan argumen baru seperti flag : 
+
+
+writeFileSync(
+    './content/result-sync.txt',`Here is the result : ${first},${second}`,
+    {flag : 'a'}
+)
+
+nah makan ketika kita ngerun app.js maka ini akan mengappend tulisannya ...
+
+skrng kita save dlu ke file baru 10-fs-sync.js
+
+
+dan yang ini merupakan yang async : 
+
+
+
+
+const { readFile, writeFile } = require('fs')
+
+readFile('./content/first.txt','utf8',(err, result) => {
+    if(err){
+        console.log(err)
+        return
+    }  
+    const first = result
+    readFile('./content/second.txt','utf8',(err,result) => {
+        if(err){
+            console.log(err)
+            return
+        }
+        const second = result
+        writeFile('./content/result-async.txt',`Here is the result : ${first},${second}`,(err,result) => {
+            if(err){
+                console.log(err)
+                return
+            }
+            console.log(result)
+        })
+
+     }
+    )
+
+ }   
+)
+
+
+
+ini ketika kita membuat kondisi yang sama dengan sync tadi , result itu hasilnya ya , kalau ada di berhasil membaca ada filenya , maka result itu hasilnya akan kita kondisikan jadi apa gtu . 
+
+jadi yang diatas itu seperti kita alurkan membaca first.txt dulu apakah ada ? jika tidak kemballikan error, kalau ada , berarti variabel first itu = result (yg mana result ini merupaakn first.txt)
+
+begitu juga berjlanjut untuk membaca second file , baru pada akhir untuk alur penulisannya juga kita tulis dia pada file result-async.txt , tapikan sebenernya itu belum kita buat , namun tidak masalah , karna kita pake writefile maka file itu akan secara otomatis dibuat. kemudian lanjut dengan kondisi apakah erorr? jika iya kembalikan error jika tidak maka console.log(result) , ini berarti kita menuliskan $first dan $second ke file result-async.txt
+
+
+
+dahhh skrng kita simpan dulu di 11-fs-async.js
+
+
+
+
+
+========
+= HTTP =
+========
+
+(req,res)
+
+
+npm..
+
+
+// npm - global command, comes with node
+// npm --version
+
+// local dependency - use it only this particular project
+// npm i <packageName>
+
+// global dependency - use it in any project
+// npm install-g <packageName>
+// sudo install -g <packagegName> (mac)
+
+// package.json - manifest file (stores important info about project /package)
+//# ada tiga cara kamu untuk membuat package json, pertama manual di root, tolong lakukan itu di dalam root , yang mana kan kamu sudah memutuskan jadi kamu harus membuat itu bersama property nya.
+//# atau ada 2 cara lain yang automatis , yaitu dengan cara menginstall npm ini t, dan nanti dari sana kamu akan ditanyakan pertanyaan secara bertahap , dan kamu hanya akan mengklik enter jika kamu skip pertanyaannya.
+//# dan dicara yang ketiganya itu , running npm init dengan sebuah y flag dan semua akan tersetting secara default.
+// manual approach (create package.json in the root , create properties etc)
+// npm init (step by step, press enter to skip)
+// npm init -y (everything default)
+
+
+
+jadi mari kita coba yang npm init , ketik ditermina , dan pertanyaan pertama yang ditanyakan adalah nama folder. dan kita harus menjawab pertanyaan itu sampe pada akhirnya kita jawab yes untuk pembuatan package jsonnya , namun jika kita menambahkan y didalamnya maka kita tidk perlu menjawa pertanyaaan dan langsung dibuatkan packagenya . 
+
+
+ knp kita perlu ini package.json? karna kita bisa instaal independence package. contohnya seperti low dash , jika kita ketik npm i lodash di terminal itu akan ke install independency property di package.json kita
+
+terus kita juga langsung dibuatkan folder yang isinya semua independency yang telah kita install ke
+
+
+
+
+
+
+
+
+
